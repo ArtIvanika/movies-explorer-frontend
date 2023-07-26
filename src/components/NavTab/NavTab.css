@@ -1,0 +1,32 @@
+.navtab{
+    background: #F5F5F5;
+    height: 66px;
+}
+.navtab__menu{
+    display: grid;
+    margin: 0;
+    padding: 26px 0 0;
+    grid-template-columns: repeat(3, fit-content(80px));
+    justify-content: center;
+    gap: 40px;
+}
+@media screen and (max-width: 530px) {
+    .navtab__menu {
+        gap: 24px;
+     }
+}
+.navtab__element{
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #000;
+    cursor: pointer;
+}
+.navtab__element:hover{
+    opacity: .6;
+}
+@media screen and (max-width: 530px) {
+    .navtab__element {
+        font-size: 11px;
+     }
+}
