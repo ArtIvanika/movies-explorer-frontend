@@ -9,8 +9,8 @@
 }
 @media screen and (max-width: 450px) {
     .portfolio {
-        height: 405px;
-        padding: 40px 14px 20px 14px;
+        height: 250px;
+        padding: 40px 18px 20px 14px;
      }
 }
 .portfolio__title{
@@ -26,6 +26,7 @@
 @media screen and (max-width: 450px) {
     .portfolio__title {
         font-size: 14px;
+        padding-bottom: 5px;
      }
 }
 .portfolio__list{
@@ -39,6 +40,11 @@
 }
 .portfolio__element:last-child{
     border: none;
+}
+@media screen and (max-width: 450px) {
+    .portfolio__element {
+        padding: 20px 0;
+     }
 }
 .portfolio__link{
     text-decoration: none;
@@ -79,8 +85,7 @@
 }
 @media screen and (max-width: 450px) {
     .portfolio__arrow {
-        width: 18px;
-        height: 28px;
+        width: 11px;
      }
 }
 

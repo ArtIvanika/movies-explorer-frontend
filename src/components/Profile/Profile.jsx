@@ -1,14 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
-import Header from "../Header/Header"
 
 function Profile() {
   return (
     <main className="profile">
-        <Header/>
       <form className="profile-form">
-        <p className="profile-form__name">Привет, Вероника!</p>
+        <p className="profile-form__name">Привет, Виталий!</p>
           <label className="profile-form__field">
             <input
               id="name"
@@ -21,7 +19,7 @@ function Profile() {
               maxLength="40"
               required=""
             />
-            Вероника
+            Виталий
           </label>
           <hr className="profile-form__line"></hr>
           <label className="profile-form__field">

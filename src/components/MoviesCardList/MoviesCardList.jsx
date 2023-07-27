@@ -18,6 +18,10 @@ export default function MoviesCardList() {
             <MoviesCard/>
             <MoviesCard/>
             <MoviesCard/>
+            <MoviesCard/>
+            <MoviesCard/>
+            <MoviesCard/>
+            <MoviesCard/>
         </ul>
         <button className="movies-container__btn-more" type="button" aria-label="Кнопка 'Еще'">Ещё</button>
     </section>

@@ -118,6 +118,12 @@
     grid-template-columns: 1fr 4fr;
     width: 94%;
 }
+@media screen and (max-width: 768px) {
+    .about-project__bar {
+        grid-template-columns: 21% 78%;
+        font-size: 11px;
+    }
+}
 @media screen and (max-width: 530px) {
     .about-project__bar {
         grid-template-columns: 35% 65%;
