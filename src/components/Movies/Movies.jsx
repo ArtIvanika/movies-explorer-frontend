@@ -6,11 +6,9 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 const Movies = () => {
   return (
     <>
-      <main>
         <SearchForm />
         {/* <Preloader/>  */}
         <MoviesCardList />
-      </main>
     </>
   );
 };

@@ -88,7 +88,7 @@
 }
 @media screen and (max-width: 768px) {
   .about-me__title {
-    max-width: 348x;
+    max-width: 348px;
     font-size: 40px;
     line-height: 40px;
     letter-spacing: -1.6px;

@@ -4,26 +4,22 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 export default function MoviesCardList() {
   return (
-    <section className="movies-container">
+    <div className="movies-container">
         <ul className="movies-container__list">
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
+          <li><MoviesCard/></li>
         </ul>
         <button className="movies-container__btn-more" type="button" aria-label="Кнопка 'Еще'">Ещё</button>
-    </section>
+    </div>
   );
 }

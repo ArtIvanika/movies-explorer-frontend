@@ -27,15 +27,36 @@
     overflow: hidden; /* Обрезаем все, что не помещается в область */
     text-overflow: ellipsis; /* Добавляем многоточие */
 }
-.card__btn-save{
+.card__btn-save-like{
     width: 16px;
     height: 16px;
-    border: #FFFFFF;
+    border: 2px solid #FFFFFF;
     background: #F9F9F9;
     border-radius: 50%;
+    box-shadow: 0 3px 5px #F9F9F9;
+    cursor: pointer;
 }
-.card__btn-save:active{
+.card__btn-save-like:hover{
+    box-shadow: 0 1px 3px grey;
+    opacity: .8;
+    transition: 0.2s;
+}
+.card__btn-save-like:active{
     background: #2BE080;
+}
+.card__btn-save-close{
+    background-image: url("../../images/dislike.svg");
+    background-position: center;
+    background-color: #ffffff;
+    border: none;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+.card__btn-save-close:hover{
+    opacity: .7;
+    transition: ease-out 0.2s;
 }
 .card__time{
     margin: 0 0 12px 14px;

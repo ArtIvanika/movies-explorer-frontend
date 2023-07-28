@@ -34,7 +34,7 @@ export default function Header() {
   
   return (
     <header
-      className={`header ${pathname === "/" ? "header__main" : ""} ${
+      className={`header ${pathname === "/" ? "header_main" : ""} ${
         headerColorRoutes ? "header__all" : ""
       }`}
     >

@@ -3,12 +3,12 @@ import "./NavTab.css"
 
 export default function NavTab() {
   return (
-    <section className="navtab">
+    <div className="navtab">
         <ul className="navtab__menu">
-            <a className="navtab__element" href="#project">О проекте</a>
-            <a className="navtab__element" href="#techs">Технологии</a>
-            <a className="navtab__element" href="#about">Студент</a>
+            <li><a className="navtab__element" href="#project">О проекте</a></li>
+            <li><a className="navtab__element" href="#techs">Технологии</a></li>
+            <li><a className="navtab__element" href="#about">Студент</a></li>
         </ul>
-    </section>
+    </div>
   );
 }
