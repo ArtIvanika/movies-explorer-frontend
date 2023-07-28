@@ -1,0 +1,135 @@
+.login{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+}
+@media screen and (max-width: 768px) {
+    .login {
+      padding-top: 232px;
+    }
+}
+@media screen and (max-width: 530px) {
+    .login {
+      padding-top: 56px;
+    }
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 396px;
+    width: 100%;
+}
+
+@media screen and (max-width: 530px) {
+    .login-form {
+      width: 260px;
+      align-items: center;
+    }
+}
+
+.login-form__name{
+    margin: 38px 0;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 530px) {
+    .login-form__name {
+      margin: 47px auto 80px;
+    }
+}
+
+.login-form__field{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #A0A0A0;
+    font-size: 10px;
+    font-weight: 400;
+
+}
+.login-form__info{
+    margin-top: 12px;
+    margin-bottom: 20px;
+    width: 370px;
+    border: 0;
+    background: #F9F9F9;;
+    height: 22px;
+    padding: 12px;
+    border-radius: 8px;
+      
+    color: #000;
+    font-size: 13px;
+    font-weight: 500;
+}
+@media screen and (max-width: 530px) {
+    .login-form__info {
+       width: 236px;
+    }
+}
+/* .login-form__err{
+    margin: 0;
+    color: #EE3465;
+    align-self: flex-start;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: normal;
+} */
+.login-form__save{
+    margin-top: 158px;
+    width: 396px;
+    height: 45px;
+    background:  #FF6838;
+    border-radius: 3px;
+    border: 0;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 530px) {
+    .login-form__save {
+        margin-top: 244px;
+        width: 260px;
+        font-size: 12px;
+    }
+  }
+
+.login-form__save:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+.login-form__save:disabled {
+    cursor: default;
+    opacity: .2;
+}
+.login__signup{
+    display: flex;
+    padding-top: 16px;
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+}
+@media screen and (max-width: 530px) {
+    .login__signup {
+        font-size: 12px;
+    }
+}
+.login__signup-text{
+    margin: 0;
+    margin-right: 6px;
+    color: #A0A0A0;
+}
+.login__signup-link{
+    color: #FF6838;
+    text-decoration: none;
+}
+
+.login__signup-link:hover {
+    opacity: .4;
+}
