@@ -1,4 +1,5 @@
 .search{
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,6 +65,17 @@
         font-size: 11px;
         width: 60%;
     }
+}
+.search__error-message{
+    color: #EE3465;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    top: 115px;
+    right: 0;
+    left: 0;
+    text-align: center;
 }
 .search-box__btn{
     padding: 0;

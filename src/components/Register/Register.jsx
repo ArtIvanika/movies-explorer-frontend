@@ -1,58 +1,124 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import logo from "../../images/logo.svg";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function Register() {
+function Register({ handleRegister, error }) {
+  
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
+    const [textError, setTextError] = React.useState("");
+
+    useEffect(() => {
+      if (error === 409) {
+        setTextError("Пользователь с таким email уже существует");
+      } 
+      if (error === 400) { 
+        setTextError("При регистрации пользователя произошла ошибка");
+      } 
+       if (error === 500) {
+       setTextError("На сервере произошла ошибка.");
+      }
+    }, [error]);
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const { name, email, password } = values;
+    if (isValid) {
+      handleRegister(name, email, password);
+      resetForm();
+    }
+  }
+
   return (
     <main className="register">
-      <form className="register-form">
+      <form className="register-form" onSubmit={handleSubmit} noValidate>
         <Link to="/">
           <img className="logo register-form__logo" src={logo} alt="Логотип" />
         </Link>
         <p className="register-form__name">Добро пожаловать!</p>
-          <label className="register-form__field">
-            Имя
-            <input
-              id="name"
-              type="name"
-              name="name"
-              placeholder="Имя"
-              className="register-form__info"
-              minLength="2"
-              maxLength="40"
-              required=""
-            />
-          </label>
-          <label className="register-form__field">
-            E-mail
+        <label className="register-form__field">
+          Имя
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={values.name || ""}
+            onChange={handleChange}
+            placeholder="Имя"
+            className="register-form__info"
+            minLength={2}
+            maxLength={40}
+            required
+          />
+          <span
+            className={`register-form__info-error ${
+              errors.name ? "register-form__info-error_active" : ""
+            }`}
+          >
+            {errors.name}
+          </span>
+        </label>
+        <label className="register-form__field">
+          E-mail
           <input
             id="email"
             type="email"
             name="email"
+            value={values.email || ""}
+            onChange={handleChange}
             placeholder="Email"
             className="register-form__info"
-            minLength="2"
-            maxLength="40"
-            required=""
+            minLength={2}
+            maxLength={40}
+            required
           />
-          </label>
-          <label className="register-form__field">
-            Пароль
+          <span
+            className={`register-form__info-error ${
+              errors.email ? "register-form__info-error_active" : ""
+            }`}
+          >
+            {errors.email}
+          </span>
+        </label>
+        <label className="register-form__field">
+          Пароль
           <input
             id="password"
             type="password"
             name="password"
+            value={values.password || ""}
+            onChange={handleChange}
             placeholder="Пароль"
             className="register-form__info"
-            minLength="6"
-            maxLength="40"
-            required=""
+            minLength={6}
+            maxLength={40}
+            required
           />
-           </label>
-            
-        <p className="register-form__err">Что-то пошло не так...</p>
-        <button className="register-form__save" type="submit">
+          <span
+            className={`register-form__info-error ${
+              errors.password ? "register-form__info-error_active" : ""
+            }`}
+          >
+            {errors.password}
+          </span>
+        </label>
+
+        <p className="register-form__err register-form__err_active">
+        {textError}
+        </p>
+        <button
+          className={`register-form__save 
+          ${
+            !isValid
+              ? "register-form__save_disabled"
+              : ""
+          }
+          `}
+          type="submit"
+          disabled={!isValid}
+        >
           Зарегистрироваться
         </button>
         <div className="register__signin">
@@ -61,7 +127,7 @@ function Register() {
             Войти
           </Link>
         </div>
-        </form>
+      </form>
     </main>
   );
 }

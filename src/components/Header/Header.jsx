@@ -3,10 +3,10 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import BurgerBtn from "../BurgerBtn/BurgerBtn";
 import "./Header.css";
-import { routesWithoutBlueHeader, SCREEN_MD } from "../../utils/constantas";
+import { routesWithoutBlueHeader, SCREEN_MD } from "../../utils/constants";
 import Navigation from "../Navigation/Navigation";
 
-export default function Header() {
+export default function Header({loggedIn}) {
   const { pathname } = useLocation();
   const headerColorRoutes = routesWithoutBlueHeader.find((item) => {
     return item === pathname;
@@ -56,7 +56,7 @@ export default function Header() {
         />
         <Route
           path="/"
-          element={
+          element={!loggedIn ?
             <div className="header__main">
               <div className="header__box-main">
                 <Link to="/signup" className="header__main-link">
@@ -67,6 +67,7 @@ export default function Header() {
                 </Link>
               </div>
             </div>
+            : <Navigation />
           }
         />
       </Routes>
