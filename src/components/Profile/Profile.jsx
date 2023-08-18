@@ -3,41 +3,44 @@ import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function Profile({ signOut, isLoading, onUpdateUser, error }) {
+function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTextErrorUser}) {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
   const currentUser = useContext(CurrentUserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
-  const [textError, setTextError] = useState("");
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
+
+  // const [name, setName] = useState();
+  // const [email, setEmail] = useState();
+
+  // useEffect(() => {
+  //   setName(currentUser.name);
+  //   setEmail(currentUser.email);
+  // }, [currentUser]);
+
+  // function handleNameChange(e) {
+  //   setName(e.target.value);
+  //   handleChange(e);
+  // }
+
+  // function handleEmailChange(e) {
+  //   setEmail(e.target.value);
+  //   handleChange(e);
+  // }
+
+  // useEffect(() => {
+  //   currentUser.name !== name || currentUser.email !== email
+  //     ? setActiveButton(true)
+  //     : setActiveButton(false);
+  // }, [currentUser.name, name, currentUser.email, email]);
 
   useEffect(() => {
-    setName(currentUser.name);
-    setEmail(currentUser.email);
-  }, [currentUser]);
-
-  function handleNameChange(e) {
-    setName(e.target.value);
-    handleChange(e);
-  }
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-    handleChange(e);
-  }
-
-  useEffect(() => {
-    if (
-      values.name !== currentUser.name ||
-      values.email !== currentUser.email
-    ) {
-      setActiveButton(true);
+    if ((values.name !== currentUser.name || values.email !== currentUser.email)) {
+        setActiveButton(true)
     } else {
-      setActiveButton(false);
+        setActiveButton(false)
     }
-  }, [currentUser, values, isEditing]);
+}, [currentUser, values, isEditing]);
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -45,20 +48,22 @@ function Profile({ signOut, isLoading, onUpdateUser, error }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    const { name, email } = values;
     if (isValid) {
-      onUpdateUser({ name, email });
+      onUpdateUser({name, email});
     }
-  }
+    // console.log('Данные пользователя обновленны')
+}
 
   useEffect(() => {
     if (error === 400) {
-      setTextError("При обновлении профиля произошла ошибка");
+      setTextErrorUser("При обновлении профиля произошла ошибка");
     }
     if (error === 409) {
-      setTextError("Пользователь с таким email уже существует.");
+      setTextErrorUser("Пользователь с таким email уже существует.");
     }
     if (error === 500) {
-      setTextError("На сервере произошла ошибка.");
+      setTextErrorUser("На сервере произошла ошибка.");
     }
   }, [error]);
 
@@ -72,14 +77,14 @@ function Profile({ signOut, isLoading, onUpdateUser, error }) {
             id="name"
             type="text"
             name="name"
-            value={name || ""}
-            onChange={handleNameChange}
+             value={values.name = values.name || currentUser.name || ''}
+            onChange={handleChange}
             placeholder="Виталий"
             className="profile-form__info"
             minLength={2}
             maxLength={40}
             required
-            disabled={!isEditing}
+            disabled={!isEditing || isWaiting}
           />
         </label>
         <hr className="profile-form__line"></hr>
@@ -89,29 +94,31 @@ function Profile({ signOut, isLoading, onUpdateUser, error }) {
             id="email"
             type="email"
             name="email"
-            value={email || ""}
-            onChange={handleEmailChange}
+            value={values.email = values.email || currentUser.email || ''}
+            onChange={handleChange}
             placeholder="pochta@yandex.ru"
             className="profile-form__info"
             minLength={2}
             maxLength={40}
             required
-            disabled={!isEditing}
+            disabled={!isEditing || isWaiting}
           />
         </label>
 
         <span className="profile-form__error">
-          {errors.name || errors.email || textError}
+          {errors.name || errors.email || textErrorUser}
         </span>
 
         {isEditing ? (
           <button
-            className={`profile-form__save`}
+            className={`profile-form__save 
+            ${activeButton && isValid ? "" : "profile-form__save_disabled"} 
+            `}
             type="submit"
-            disabled={!activeButton || !isValid}
+           //disabled={activeButton || isValid || isWaiting}
+            disabled={!activeButton || !isValid || isWaiting}
           >
             Сохранить
-            {/* {isLoading ? "Сохранить" : "Сохранение..."} */}
           </button>
         ) : (
           <>
@@ -130,5 +137,7 @@ function Profile({ signOut, isLoading, onUpdateUser, error }) {
       </form>
     </main>
   );
+
+
 }
 export default Profile;

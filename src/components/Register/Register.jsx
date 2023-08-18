@@ -1,26 +1,28 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function Register({ handleRegister, error }) {
-  
+function Register({ handleRegister, error, isWaiting }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
-    const [textError, setTextError] = React.useState("");
+  const [textError, setTextError] = React.useState("");
 
-    useEffect(() => {
-      if (error === 409) {
-        setTextError("Пользователь с таким email уже существует");
-      } 
-      if (error === 400) { 
-        setTextError("При регистрации пользователя произошла ошибка");
-      } 
-       if (error === 500) {
-       setTextError("На сервере произошла ошибка.");
-      }
-    }, [error]);
+  useEffect(() => {
+    if (error === 409) {
+      setTextError("Пользователь с таким email уже существует");
+    }
+    if (error === 400) {
+      setTextError("При регистрации пользователя произошла ошибка");
+    }
+    if (error === 500) {
+      setTextError("На сервере произошла ошибка.");
+    } 
+    // if (error !== "") {
+    //   setTextError("Пользователь успешно зарегестрирован");
+    // }
+  }, [error]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -51,6 +53,7 @@ function Register({ handleRegister, error }) {
             minLength={2}
             maxLength={40}
             required
+            // disabled={isWaiting}
           />
           <span
             className={`register-form__info-error ${
@@ -73,6 +76,7 @@ function Register({ handleRegister, error }) {
             minLength={2}
             maxLength={40}
             required
+            // disabled={isWaiting}
           />
           <span
             className={`register-form__info-error ${
@@ -95,6 +99,7 @@ function Register({ handleRegister, error }) {
             minLength={6}
             maxLength={40}
             required
+            // disabled={isWaiting}
           />
           <span
             className={`register-form__info-error ${
@@ -105,16 +110,10 @@ function Register({ handleRegister, error }) {
           </span>
         </label>
 
-        <p className="register-form__err register-form__err_active">
-        {textError}
-        </p>
+        <p className="login-form__err">{!!textError.length ? textError : ""}</p>
         <button
           className={`register-form__save 
-          ${
-            !isValid
-              ? "register-form__save_disabled"
-              : ""
-          }
+          ${!isValid ? "register-form__save_disabled" : ""}
           `}
           type="submit"
           disabled={!isValid}

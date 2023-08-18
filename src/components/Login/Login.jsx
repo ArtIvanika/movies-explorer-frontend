@@ -4,7 +4,7 @@ import "./Login.css";
 import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-function Login({ handleLogin, error }) {
+function Login({ handleLogin, error, isWaiting }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const [textError, setTextError] = useState("");
@@ -32,6 +32,9 @@ function Login({ handleLogin, error }) {
     if (error === 500) {
       setTextError("На сервере произошла ошибка.");
     }
+    // if (error !== "") {
+    //   setTextError("Запрос успешный");
+    // }
   }, [error]);
 
   return (
@@ -51,9 +54,10 @@ function Login({ handleLogin, error }) {
             onChange={handleChange}
             placeholder="Email"
             className="login-form__info"
-            minLength="2"
-            maxLength="40"
-            required=""
+            minLength={2}
+            maxLength={40}
+            required
+            // disabled={isWaiting}
           />
           <span
             className={`login-form__info-error ${
@@ -73,9 +77,10 @@ function Login({ handleLogin, error }) {
             onChange={handleChange}
             placeholder="Пароль"
             className="login-form__info"
-            minLength="6"
-            maxLength="40"
-            required=""
+            minLength={6}
+            maxLength={40}
+            required
+            // disabled={isWaiting}
           />
           <span
             className={`login-form__info-error ${
@@ -85,8 +90,8 @@ function Login({ handleLogin, error }) {
             {errors.password}
           </span>
         </label>
-
-        <p className="login-form__err">{textError}</p>
+       <p className="login-form__err">{!!textError.length ? textError : ""}</p>
+      
         <button
           //className="login-form__save"
           className={`login-form__save ${
