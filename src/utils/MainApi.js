@@ -1,5 +1,5 @@
-export const MAIN_URL = "http://localhost:3000";
-// export const BASE_URL = 'https://api.movies-express.nomoredomains.rocks';
+// export const MAIN_URL = "http://localhost:3000";
+export const MAIN_URL = 'https://films.nomoredomains.xyz';
 
 const getResponse = (res) => {
   if (res.ok) {
