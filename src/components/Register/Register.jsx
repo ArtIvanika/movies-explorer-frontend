@@ -5,18 +5,22 @@ import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 function Register({ handleRegister, error, isWaiting }) {
-  const { values, handleChange, errors, isValid, resetForm } =
+  const { values, handleChange, errors, isValid, resetForm, setIsValid } =
     useFormAndValidation();
   const [textError, setTextError] = React.useState("");
-  const [activeButton, setActiveButton] = React.useState(false);
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const { name, email, password } = values;
+    if (isValid) {
+      handleRegister(name, email, password);
+      resetForm();
+    }
+  }
 
   useEffect(() => {
-    if ((values.name !== undefined || values.email !== undefined || values.password !== undefined)) {
-        setActiveButton(true)
-        console.log(values.name)
-    } else {
-        setActiveButton(false)
-        console.log(values.name)
+    if ((values.name === undefined || values.email === undefined || values.password === undefined)) {
+        setIsValid(false)
     }
 }, [ , values]);
 
@@ -32,14 +36,7 @@ function Register({ handleRegister, error, isWaiting }) {
     } 
   }, [error]);
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    const { name, email, password } = values;
-    if (isValid) {
-      handleRegister(name, email, password);
-      resetForm();
-    }
-  }
+
 
   return (
     <main className="register">
@@ -124,7 +121,7 @@ function Register({ handleRegister, error, isWaiting }) {
           ${!isValid ? "register-form__save_disabled" : ""}
           `}
           type="submit"
-          disabled={!activeButton || !isValid}
+          disabled={!isValid}
         >
           Зарегистрироваться
         </button>

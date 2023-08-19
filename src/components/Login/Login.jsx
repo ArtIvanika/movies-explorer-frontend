@@ -5,10 +5,9 @@ import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 function Login({ handleLogin, error, isWaiting }) {
-  const { values, handleChange, errors, isValid, setIsValid, resetForm } =
+  const { values, handleChange, errors, isValid, resetForm, setIsValid } =
     useFormAndValidation();
   const [textError, setTextError] = useState("");
-  const [activeButton, setActiveButton] = useState(false);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -20,10 +19,8 @@ function Login({ handleLogin, error, isWaiting }) {
   }
 
   useEffect(() => {
-    if ((values.email !== undefined || values.password !== undefined)) {
-        setActiveButton(true)
-    } else {
-        setActiveButton(false)
+    if ((values.email === undefined || values.password === undefined)) {
+        setIsValid(false)
     }
 }, [ , values]);
 
@@ -103,7 +100,7 @@ function Login({ handleLogin, error, isWaiting }) {
             !isValid ? "login-form__save_disabled" : ""
           }`}
           type="submit"
-          disabled={!activeButton || !isValid}
+          disabled={!isValid}
         >
           Войти
         </button>
