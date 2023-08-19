@@ -11,10 +11,8 @@ export default function FilterCheckbox({ isShortMovies, setIsShortMovies }) {
     const newValue = event.target.checked;
     setIsShortMovies(newValue);
     if (locationMovies) {
-      console.log("q");
       localStorage.setItem("isShortMovies", String(newValue));
     } else {
-      console.log("t");
       localStorage.setItem("savedIsShortMovies", String(newValue));
     }
   }

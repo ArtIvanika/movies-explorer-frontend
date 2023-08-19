@@ -5,6 +5,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 const SavedMovies = (props) => {
   React.useEffect(() => {
     props.setIsShortMovies(false);
+    props.setSearchText('')
   }, []);
   return (
     <>
@@ -13,7 +14,7 @@ const SavedMovies = (props) => {
         searchSavedMovies={props.searchSavedMovies}
         isShortMovies={props.isShortMovies}
         setIsShortMovies={props.setIsShortMovies}
-        searchText={props.searchText}
+        searchText={props.searchText}пше
         setSearchText={props.setSearchText}
       />
       <MoviesCardList

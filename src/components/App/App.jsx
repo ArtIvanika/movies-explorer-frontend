@@ -246,7 +246,7 @@ function App() {
   // }
 
   function handleSearch(allMovies, searchText) {
-    return allMovies.filter((movie) => {
+    return allMovies?.filter((movie) => {
       return (
         movie.nameRU.toLowerCase().includes(searchText.toLowerCase()) ||
         movie.nameEN.toLowerCase().includes(searchText.toLowerCase())

@@ -17,9 +17,8 @@ export default function MoviesCardList({
   filteredMovies,
   filteredShortMovies,
   savedCardsList,
-  
+  // renderMovies
 }) {
-  // const { visibleFilmsCount, isLoading, addMovies, width } = useWindowResize();
   const width = useWindowResize();
   const location = useLocation();
 
@@ -52,19 +51,15 @@ React.useEffect(()=>{
   const [isLoading, setIsLoading] = React.useState(false); //стэйт прелоадера
 
   const addMovies = () => {
-    // setIsLoading(true);
-    // setTimeout(() => {
       setVisibleFilmsFilmsCount((prevCount) => prevCount + loadStep);
-      // setIsLoading(false);
-    // }, 600);
+
   };
 
-  // React.useEffect(() => {
-  //   addMovies();
-  // }, [width]);
 
   const renderMovies = !isShortMovies ? filteredMovies : filteredShortMovies;
   const renderAllMovies = location.pathname === "/movies" ? renderMovies : savedCardsList;
+
+  // const renderMovies = location.pathname === "/movies" ? filteredMovies : savedCardsList;
 
   return (
     <div className="movies-container">
