@@ -6,8 +6,8 @@
 
 light-2
 
-## Адрес репозитория: 
-https://github.com/ArtIvanika/movies-explorer-frontend/compare/main...level-3
+## Ссылка на pull request: 
+https://github.com/ArtIvanika/movies-explorer-frontend/pull/2
 
 
 ## Ссылки на проект
