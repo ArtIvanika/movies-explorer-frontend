@@ -43,7 +43,7 @@ export function useFormAndValidation() {
         });
     
       } else if (!value) {
-        setErrors({ ...errors, [name]: "Введите пароль" });
+      setErrors({ ...errors, [name]: "Введите пароль" });
       } else {
         setErrors({ ...errors, [name]: "" });
       }
