@@ -19,10 +19,8 @@
   
   .footer__name {
     position: relative;
-  
-    margin: 0;
     padding-bottom: 20px;
-    
+    text-align: center;
     color: #A0A0A0;
     font-feature-settings: 'clig' off, 'liga' off;
     font-size: 13px;
@@ -46,7 +44,6 @@
     height: 1px;
     width: 100%;
     background-color: #E8E8E8;
-  
     content: ' ';
   }
   

@@ -39,7 +39,7 @@ export function useFormAndValidation() {
         setErrors({
           ...errors,
           [name]:
-            "Пароль должен быть от 6 до 40 символов",
+            "Пароль должен быть от 8 до 40 символов",
         });
     
       } else if (!value) {

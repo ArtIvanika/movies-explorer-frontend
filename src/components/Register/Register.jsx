@@ -8,6 +8,17 @@ function Register({ handleRegister, error, isWaiting }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const [textError, setTextError] = React.useState("");
+  const [activeButton, setActiveButton] = React.useState(false);
+
+  useEffect(() => {
+    if ((values.name !== undefined || values.email !== undefined || values.password !== undefined)) {
+        setActiveButton(true)
+        console.log(values.name)
+    } else {
+        setActiveButton(false)
+        console.log(values.name)
+    }
+}, [ , values]);
 
   useEffect(() => {
     if (error === 409) {
@@ -19,9 +30,6 @@ function Register({ handleRegister, error, isWaiting }) {
     if (error === 500) {
       setTextError("На сервере произошла ошибка.");
     } 
-    // if (error !== "") {
-    //   setTextError("Пользователь успешно зарегестрирован");
-    // }
   }, [error]);
 
   function handleSubmit(evt) {
@@ -116,7 +124,7 @@ function Register({ handleRegister, error, isWaiting }) {
           ${!isValid ? "register-form__save_disabled" : ""}
           `}
           type="submit"
-          disabled={!isValid}
+          disabled={!activeButton || !isValid}
         >
           Зарегистрироваться
         </button>

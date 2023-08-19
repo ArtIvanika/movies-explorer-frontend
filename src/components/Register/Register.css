@@ -5,15 +5,18 @@
     flex-direction: column;
     align-items: center;
     padding-top: 70px;
+    padding-bottom: 70px;
 }
 @media screen and (max-width: 768px) {
     .register {
       padding-top: 232px;
+      padding-bottom: 232px;
     }
 }
 @media screen and (max-width: 530px) {
     .register {
       padding-top: 56px;
+      padding-bottom: 30px;
     }
 }
 

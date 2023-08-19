@@ -5,6 +5,17 @@
   flex-direction: column;
   align-items: center;
   padding-top: 35px;
+  padding-bottom: 70px;
+}
+@media screen and (max-width: 768px) {
+  .profile-form{
+    padding-bottom: 269px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .profile-form {
+    padding-bottom: 40px;
+  }
 }
 .profile-form__name {
   margin: 40px 0 106px;

@@ -5,9 +5,10 @@ import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 function Login({ handleLogin, error, isWaiting }) {
-  const { values, handleChange, errors, isValid, resetForm } =
+  const { values, handleChange, errors, isValid, setIsValid, resetForm } =
     useFormAndValidation();
   const [textError, setTextError] = useState("");
+  const [activeButton, setActiveButton] = useState(false);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -17,6 +18,14 @@ function Login({ handleLogin, error, isWaiting }) {
       resetForm();
     }
   }
+
+  useEffect(() => {
+    if ((values.email !== undefined || values.password !== undefined)) {
+        setActiveButton(true)
+    } else {
+        setActiveButton(false)
+    }
+}, [ , values]);
 
   useEffect(() => {
     if (error === 400) {
@@ -32,9 +41,6 @@ function Login({ handleLogin, error, isWaiting }) {
     if (error === 500) {
       setTextError("На сервере произошла ошибка.");
     }
-    // if (error !== "") {
-    //   setTextError("Запрос успешный");
-    // }
   }, [error]);
 
   return (
@@ -93,12 +99,11 @@ function Login({ handleLogin, error, isWaiting }) {
        <p className="login-form__err">{!!textError.length ? textError : ""}</p>
       
         <button
-          //className="login-form__save"
           className={`login-form__save ${
             !isValid ? "login-form__save_disabled" : ""
           }`}
           type="submit"
-          disabled={!isValid}
+          disabled={!activeButton || !isValid}
         >
           Войти
         </button>

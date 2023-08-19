@@ -9,31 +9,6 @@ function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTe
   const [isEditing, setIsEditing] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
 
-
-  // const [name, setName] = useState();
-  // const [email, setEmail] = useState();
-
-  // useEffect(() => {
-  //   setName(currentUser.name);
-  //   setEmail(currentUser.email);
-  // }, [currentUser]);
-
-  // function handleNameChange(e) {
-  //   setName(e.target.value);
-  //   handleChange(e);
-  // }
-
-  // function handleEmailChange(e) {
-  //   setEmail(e.target.value);
-  //   handleChange(e);
-  // }
-
-  // useEffect(() => {
-  //   currentUser.name !== name || currentUser.email !== email
-  //     ? setActiveButton(true)
-  //     : setActiveButton(false);
-  // }, [currentUser.name, name, currentUser.email, email]);
-
   useEffect(() => {
     if ((values.name !== currentUser.name || values.email !== currentUser.email)) {
         setActiveButton(true)
@@ -52,7 +27,6 @@ function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTe
     if (isValid) {
       onUpdateUser({name, email});
     }
-    // console.log('Данные пользователя обновленны')
 }
 
   useEffect(() => {
@@ -115,7 +89,6 @@ function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTe
             ${activeButton && isValid ? "" : "profile-form__save_disabled"} 
             `}
             type="submit"
-           //disabled={activeButton || isValid || isWaiting}
             disabled={!activeButton || !isValid || isWaiting}
           >
             Сохранить
