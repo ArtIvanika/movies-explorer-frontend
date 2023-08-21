@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { useLocation } from "react-router-dom";
+import {
+  SCREEN_WIDTH_1175,
+  SCREEN_WIDTH_820,
+  SCREEN_WIDTH_500,
+  NUMBER_OF_FILMS_GIVEN_OUT_16,
+  NUMBER_OF_FILMS_GIVEN_OUT_12,
+  NUMBER_OF_FILMS_GIVEN_OUT_8,
+  NUMBER_OF_FILMS_GIVEN_OUT_5,
+  NUMBER_OF_FILMS_TO_BE_ADDED_4,
+  NUMBER_OF_FILMS_TO_BE_ADDED_3,
+  NUMBER_OF_FILMS_TO_BE_ADDED_2,
+} from "../../utils/constants";
 
 export default function MoviesCardList({
   preloader,
+  searchText,
   isWaiting,
   errorSearch,
   textError,
@@ -17,49 +30,56 @@ export default function MoviesCardList({
   filteredMovies,
   filteredShortMovies,
   savedCardsList,
-  // renderMovies
+  searchMovies,
 }) {
   const width = useWindowResize();
   const location = useLocation();
 
-  const [initialCount, setInitialCount] = React.useState(2); 
-  const [loadStep, setLoadStep] = React.useState(0);
-
-  React.useEffect(()=>{
-    if (width > 1175) {
-      setInitialCount(16);
-      setLoadStep(4);
-    } else if (width > 820) {
-      setInitialCount(12);
-      setLoadStep(3);
-    } else if (width > 500) {
-      setInitialCount(8);
-      setLoadStep(2);
-    } else {
-      setInitialCount(5);
-      setLoadStep(2);
-    }   
-}, [, width])
-
-React.useEffect(()=>{
-  setVisibleFilmsFilmsCount(initialCount)
-},[initialCount])
-
-  const [visibleFilmsCount, setVisibleFilmsFilmsCount] = React.useState(
-    initialCount
-  ); //сколько сейчас отображается фильмов
-  const [isLoading, setIsLoading] = React.useState(false); //стэйт прелоадера
-
-  const addMovies = () => {
-      setVisibleFilmsFilmsCount((prevCount) => prevCount + loadStep);
-
-  };
-
-
+  const [visibleFilmsCount, setVisibleFilmsFilmsCount] = useState(0); //сколько сейчас отображается фильмов
   const renderMovies = !isShortMovies ? filteredMovies : filteredShortMovies;
-  const renderAllMovies = location.pathname === "/movies" ? renderMovies : savedCardsList;
+  const renderAllMovies =
+    location.pathname === "/movies" ? renderMovies : savedCardsList;
 
-  // const renderMovies = location.pathname === "/movies" ? filteredMovies : savedCardsList;
+  useEffect(() => {
+    function resizeListener() {
+      const width = window.innerWidth;
+      let setInitialCount = 0;
+      if (width > SCREEN_WIDTH_1175) {
+        setInitialCount = NUMBER_OF_FILMS_GIVEN_OUT_16;
+      } else if (width > SCREEN_WIDTH_820) {
+        setInitialCount = NUMBER_OF_FILMS_GIVEN_OUT_12;
+      } else if (width > SCREEN_WIDTH_500) {
+        setInitialCount = NUMBER_OF_FILMS_GIVEN_OUT_8;
+      } else {
+        setInitialCount = NUMBER_OF_FILMS_GIVEN_OUT_5;
+      }
+      setVisibleFilmsFilmsCount(setInitialCount);
+    }
+    window.addEventListener("resize", resizeListener);
+    resizeListener();
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, [width, searchMovies]);
+
+  function addMovies() {
+    const width = window.innerWidth;
+    let setLoadStep = 0;
+    if (width > SCREEN_WIDTH_1175) {
+      setLoadStep = NUMBER_OF_FILMS_TO_BE_ADDED_4;
+    } else if (width > SCREEN_WIDTH_820) {
+      setLoadStep = NUMBER_OF_FILMS_TO_BE_ADDED_3;
+    } else if (width > SCREEN_WIDTH_500) {
+      setLoadStep = NUMBER_OF_FILMS_TO_BE_ADDED_2;
+    } else {
+      setLoadStep = NUMBER_OF_FILMS_TO_BE_ADDED_2;
+    }
+
+    setVisibleFilmsFilmsCount((prevCount) => {
+      const newVisibleFilmsFilmsCount = prevCount + setLoadStep;
+      return newVisibleFilmsFilmsCount
+    });
+  }
 
   return (
     <div className="movies-container">
@@ -85,7 +105,7 @@ React.useEffect(()=>{
             />
           ))}
       </ul>
-      {isLoading && <Preloader />}
+      {/* {isLoading && <Preloader />} */}
       {renderAllMovies?.flat().length > visibleFilmsCount ? (
         <button
           className="movies-container__btn-more"

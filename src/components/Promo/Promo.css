@@ -28,6 +28,7 @@
 }
 .promo__name{
     max-width: 730px;
+    text-align: center;
     margin: 0 auto;
     padding-top: 184px;
     font-size: 50px;

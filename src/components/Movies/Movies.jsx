@@ -16,6 +16,7 @@ const Movies = (props) => {
       />
       <MoviesCardList
         preloader={props.preloader}
+        searchText={props.searchText}
         isWaiting={props.isWaiting}
         errorSearch={props.errorSearch}
         textError={props.textError}
@@ -25,6 +26,9 @@ const Movies = (props) => {
         filteredShortMovies={props.filteredShortMovies}
         deleteCard={props.deleteCard}
         saveCard={props.saveCard}
+        // checkLocalStorage={props.checkLocalStorage}
+        searchMovies={props.checkLocalStorage}
+        // savedCardsList={}
       />
     </>
   );

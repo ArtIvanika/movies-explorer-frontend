@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import {ENTER_KEYWORD} from "../../utils/constants"
 
 export default function SearchForm({
   isWaiting,
@@ -19,7 +20,7 @@ export default function SearchForm({
   const handleChange = (event) => {
     setSearchText(event.target.value);
     if (event.target.value.length === 0) {
-      setTextError("Нужно ввести ключевое слово");
+      setTextError(ENTER_KEYWORD);
     } else {
       setTextError("");
     }
@@ -32,7 +33,7 @@ export default function SearchForm({
 
   return (
     <div className="search">
-      <form className="search-box" onSubmit={handleSubmit}>
+      <form className="search-box" onSubmit={handleSubmit} noValidate>
         <input
           className="search-box__input"
           type="text"

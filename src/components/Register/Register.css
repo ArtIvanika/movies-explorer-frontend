@@ -133,10 +133,13 @@
     opacity: .8;
 }
   
-.register-form__save_disabled {
+.register-form__save:disabled {
     cursor: default;
-    opacity: .2;
+    opacity: 1;
+    background-color: #F8F8F8;
+    color: #c2c2c2;
 }
+
 
 .register__signin{
     display: flex;

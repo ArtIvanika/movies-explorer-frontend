@@ -57,7 +57,7 @@ export default function Header({loggedIn}) {
         <Route
           path="/"
           element={!loggedIn ?
-            <div className="header__main">
+            (<div className="header__main">
               <div className="header__box-main">
                 <Link to="/signup" className="header__main-link">
                   Регистрация
@@ -66,8 +66,8 @@ export default function Header({loggedIn}) {
                   Войти
                 </Link>
               </div>
-            </div>
-            : <Navigation />
+            </div>)
+            : (resize ? <BurgerBtn /> : <Navigation />)
           }
         />
       </Routes>

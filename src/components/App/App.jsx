@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate,  Navigate} from "react-router-dom";
 import "./App.css";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
@@ -13,18 +13,20 @@ import Footer from "../Footer/Footer";
 import {
   routesWithHeader,
   routesWithFooter,
+  NOTHING_FOUND,
+  DURATION_SHORT_FILM,
+  ENTER_KEYWORD,
+  PROFILE_UPDARED,
   MOVIES_URL,
 } from "../../utils/constants";
 import * as moviesApi from "../../utils/MoviesApi";
 import * as mainApi from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { resetForm } = useFormAndValidation();
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [infoUser, setInfoUser] = useState({});
@@ -90,7 +92,6 @@ function App() {
         setErrorReg(err);
       })
       .finally(() => {
-        resetForm();
         setIsWaiting(false);
       });
   }
@@ -110,7 +111,6 @@ function App() {
         setErrorLogin(err);
       })
       .finally(() => {
-        resetForm();
         setIsWaiting(false);
       });
   }
@@ -121,7 +121,7 @@ function App() {
       .updateUserInfo(name, email)
       .then((res) => {
         setInfoUser(res);
-        setTextErrorUser("Профиль успешно обнавлен")
+        setTextErrorUser(PROFILE_UPDARED);
       })
       .catch((err) => {
         setErrorProfile(err);
@@ -134,6 +134,7 @@ function App() {
   }
 
   function signOut() {
+    localStorage.clear();
     localStorage.removeItem("token");
     setLoggedIn(false);
     navigate("/", { replace: true });
@@ -142,12 +143,16 @@ function App() {
   //                           Поиск фильмов
 
   function checkLocalStorage() {
-    const AllMovies = localStorage.getItem("allMovies");
+    const AllMovies = JSON.parse(localStorage.getItem("allMovies"));
     if (AllMovies) {
-      setAllMovies(JSON.parse(AllMovies));
-      searchMovies(allMovies);
-    }
-    takeAllMovies();
+      setAllMovies(AllMovies);
+      if(allMovies.length === 0){
+        searchMovies(AllMovies);
+      }else{
+        searchMovies(allMovies);
+      }
+    } else{
+    takeAllMovies();}
   }
   // Получение фильмов с сервера
   function takeAllMovies() {
@@ -183,38 +188,40 @@ function App() {
   }
 
   function searchMovies(data) {
+    // console.log(data)
     setPreloader(true);
     localStorage.setItem("moviesSearchText", JSON.stringify(searchText));
-    checkCheckbox(data)
+    checkCheckbox(data);
     setPreloader(false);
   }
-// useEffect(()=>{
-//   checkCheckbox(JSON.parse(localStorage.getItem("allMovies")))
-// }, [isShortMovies])
+  // useEffect(()=>{
+  //   checkCheckbox(JSON.parse(localStorage.getItem("allMovies")))
+  // }, [isShortMovies])
 
-  function checkCheckbox(data){
-      const allFilteredMovies = [];
-      const shortMovies = [];
-      setErrorSearch(false);
-      // фильтр фильмов
-      const filteredMovies = handleSearch(data, searchText);
-      if (filteredMovies.length !== 0) {
-        allFilteredMovies.push(filteredMovies);
-      }
-      if (filteredMovies.length === 0) {
-        setErrorSearch(true);
-        setTextError("Ничего не найдено");
-      }
-      localStorage.setItem("filteredMovies", JSON.stringify(allFilteredMovies));
-      setFilteredMovies(allFilteredMovies);
-      // короткометражки
-      const filteredShortMovies = allFilteredMovies
-        .flat()
-        .filter((film) => film.duration <= 40);
-      shortMovies.push(filteredShortMovies);
-      localStorage.setItem("filteredShortMovies", JSON.stringify(shortMovies));
-      setFilteredShortMovies(shortMovies);
-  
+  function checkCheckbox(data) {
+    const allFilteredMovies = [];
+    const shortMovies = [];
+    setErrorSearch(false);
+    // фильтр фильмов
+    const filteredMovies = handleSearch(data, searchText);
+    // console.log(data)
+    if (filteredMovies.length !== 0) {
+      allFilteredMovies.push(filteredMovies);
+    }
+    if (filteredMovies.length === 0) {
+      console.log(filteredMovies.length)
+      setErrorSearch(true);
+      setTextError(NOTHING_FOUND);
+    }
+    localStorage.setItem("filteredMovies", JSON.stringify(allFilteredMovies));
+    setFilteredMovies(allFilteredMovies);
+    // короткометражки
+    const filteredShortMovies = allFilteredMovies
+      .flat()
+      .filter((film) => film.duration <= DURATION_SHORT_FILM);
+    shortMovies.push(filteredShortMovies);
+    localStorage.setItem("filteredShortMovies", JSON.stringify(shortMovies));
+    setFilteredShortMovies(shortMovies);
   }
 
   // function searchMovies(data) {
@@ -231,14 +238,14 @@ function App() {
   //   }
   //   if (filteredMovies.length === 0) {
   //     setErrorSearch(true);
-  //     setTextError("Ничего не найдено");
+  //     setTextError(NOTHING_FOUND);
   //   }
   //   localStorage.setItem("filteredMovies", JSON.stringify(allFilteredMovies));
   //   setFilteredMovies(allFilteredMovies);
   //   // короткометражки
   //   const filteredShortMovies = allFilteredMovies
   //     .flat()
-  //     .filter((film) => film.duration <= 40);
+  //     .filter((film) => film.duration <= DURATION_SHORT_FILM);
   //   shortMovies.push(filteredShortMovies);
   //   localStorage.setItem("filteredShortMovies", JSON.stringify(shortMovies));
   //   setFilteredShortMovies(shortMovies);
@@ -248,8 +255,8 @@ function App() {
   function handleSearch(allMovies, searchText) {
     return allMovies?.filter((movie) => {
       return (
-        movie.nameRU.toLowerCase().includes(searchText.toLowerCase()) ||
-        movie.nameEN.toLowerCase().includes(searchText.toLowerCase())
+        movie.nameRU?.toLowerCase().includes(searchText.toLowerCase()) ||
+        movie.nameEN?.toLowerCase().includes(searchText.toLowerCase())
       );
     });
   }
@@ -291,25 +298,25 @@ function App() {
   // Поиск по сохраненым фильмам
   function searchSavedMovies() {
     if (searchText.trim() === "") {
-      setTextError("Нужно ввести ключевое слово");
+      setTextError(ENTER_KEYWORD);
       return;
     }
     setTextError("");
     filterSavedFilms();
     if (filteredShortMovies.length === 0) {
       setErrorSearch(true);
-      setTextError("Ничего не найдено");
+      setTextError(NOTHING_FOUND);
     }
   }
-  useEffect(()=>{
-    filterSavedFilms()
-  }, [isShortMovies])
+  useEffect(() => {
+    filterSavedFilms();
+  }, [isShortMovies]);
 
   // Фильтр сохраненых фильмов
   function filterSavedFilms() {
     const filteredMovies = handleSearch(savedMovies, searchText);
     const filteredShortMovies = isShortMovies
-      ? filteredMovies.filter((film) => film.duration <= 40)
+      ? filteredMovies.filter((film) => film.duration <= DURATION_SHORT_FILM)
       : filteredMovies;
     setSavedCardsList(filteredShortMovies);
   }
@@ -320,10 +327,11 @@ function App() {
       .saveMovie(card)
       .then((data) => {
         setSavedMovies([...savedMovies, data].reverse());
-        console.log("карточка сохранена");
+        // console.log("карточка сохранена");
       })
       .catch((err) => {
-        console.log("Ошибка сохранения карточки ", err);
+        console.log(err);
+        // console.log("Ошибка сохранения карточки ");
       })
       .finally(() => {
         setIsWaiting(false);
@@ -339,14 +347,16 @@ function App() {
           const newShownCards = savedMovies.filter(
             (c) => c.movieId !== card.movieId
           );
-          setSavedCardsList(newShownCards);
+          const filteredMovies = handleSearch(newShownCards, searchText);
+          setSavedCardsList(filteredMovies);
         }
-        const newCards = savedMovies?.filter((c) => c.movieId !== card.movieId);
-        setSavedMovies(newCards);
-        console.log("Карточка удалена");
+        // const newCards = savedMovies?.filter((c) => c.movieId !== card.movieId);
+        // setSavedMovies(newCards);
+        // console.log("Карточка удалена");
       })
       .catch((err) => {
-        console.log("Ошибка удаления карточки ", err);
+        console.log(err);
+        // console.log("Ошибка сохранения карточки ");
       })
       .finally(() => {
         setIsWaiting(false);
@@ -368,25 +378,26 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route
-              path="/signup"
-              element={
-                <Register
-                  handleRegister={handleRegister}
-                  error={errorReg}
-                  isWaiting={isWaiting}
-                />
-              }
-            />
-            <Route
-              path="/signin"
-              element={
-                <Login
-                  handleLogin={handleLogin}
-                  error={errorLogin}
-                  isWaiting={isWaiting}
-                />
-              }
-            />
+                path="/signup"
+                element={loggedIn ? (<Navigate to="/" replace/>)
+                : (
+                  <Register
+                    handleRegister={handleRegister}
+                    error={errorReg}
+                    isWaiting={isWaiting}
+                  />)
+                }/>
+               <Route
+                path="/signin"
+                element={loggedIn ? (<Navigate to="/" replace/>)
+                : (
+                  <Login
+                    handleLogin={handleLogin}
+                    error={errorLogin}
+                    isWaiting={isWaiting}
+                  />)
+                }
+              />
             <Route
               path="/movies"
               element={

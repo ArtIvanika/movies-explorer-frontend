@@ -19,11 +19,13 @@ const SavedMovies = (props) => {
       />
       <MoviesCardList
         preloader={props.preloader}
+        searchText={props.searchText}
         isWaiting={props.isWaiting}
         textError={props.textError}
         savedMovies={props.savedMovies}
         deleteCard={props.deleteCard}
         savedCardsList={props.savedCardsList}
+        searchMovies={props.searchSavedMovies}
       />
     </>
   );

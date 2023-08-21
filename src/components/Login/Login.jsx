@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import {
+  INTERNAL_SERVER_ERROR_500,
+  BAD_REQUEST_400,
+  UNAUTHORIZED_401,
+  emailRegex,
+} from "../../utils/constants";
 
 function Login({ handleLogin, error, isWaiting }) {
   const { values, handleChange, errors, isValid, resetForm, setIsValid } =
@@ -11,38 +17,38 @@ function Login({ handleLogin, error, isWaiting }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    const { email, password } = values;
-    if (isValid) {
-      handleLogin(email, password);
-      resetForm();
-    }
+    handleLogin(values.email, values.password);
+    resetForm();
   }
 
   useEffect(() => {
-    if ((values.email === undefined || values.password === undefined)) {
-        setIsValid(false)
+    if (values.email === undefined || values.password === undefined) {
+      setIsValid(false);
     }
-}, [ , values]);
+  }, [, values]);
 
   useEffect(() => {
     if (error === 400) {
       console.log(error);
-      setTextError(
-        "При авторизации произошла ошибка. Переданный токен некорректен"
-      );
+      setTextError(BAD_REQUEST_400);
     }
     if (error === 401) {
       console.log(error);
-      setTextError("Вы ввели не верный логин или пароль");
+      setTextError(UNAUTHORIZED_401);
     }
     if (error === 500) {
-      setTextError("На сервере произошла ошибка.");
+      setTextError(INTERNAL_SERVER_ERROR_500);
     }
   }, [error]);
 
   return (
     <main className="login">
-      <form className="login-form" onSubmit={handleSubmit} noValidate>
+      <form
+        className="login-form"
+        name="login"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <Link to="/">
           <img className="logo login-form__logo" src={logo} alt="Логотип" />
         </Link>
@@ -60,6 +66,7 @@ function Login({ handleLogin, error, isWaiting }) {
             minLength={2}
             maxLength={40}
             required
+            pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,}"
             // disabled={isWaiting}
           />
           <span
@@ -80,7 +87,7 @@ function Login({ handleLogin, error, isWaiting }) {
             onChange={handleChange}
             placeholder="Пароль"
             className="login-form__info"
-            minLength={6}
+            minLength={8}
             maxLength={40}
             required
             // disabled={isWaiting}
@@ -93,15 +100,9 @@ function Login({ handleLogin, error, isWaiting }) {
             {errors.password}
           </span>
         </label>
-       <p className="login-form__err">{!!textError.length ? textError : ""}</p>
-      
-        <button
-          className={`login-form__save ${
-            !isValid ? "login-form__save_disabled" : ""
-          }`}
-          type="submit"
-          disabled={!isValid}
-        >
+        <p className="login-form__err">{!!textError.length ? textError : ""}</p>
+
+        <button className="login-form__save" type="submit" disabled={!isValid}>
           Войти
         </button>
         <div className="login__signup">

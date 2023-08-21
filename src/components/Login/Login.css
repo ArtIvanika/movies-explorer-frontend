@@ -132,7 +132,9 @@
 }
 .login-form__save:disabled {
     cursor: default;
-    opacity: .2;
+    opacity: 1;
+    background-color: #F8F8F8;
+    color: #c2c2c2;
 }
 .login__signup{
     display: flex;

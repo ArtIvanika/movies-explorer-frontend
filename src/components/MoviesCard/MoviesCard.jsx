@@ -39,17 +39,6 @@ export default function MoviesCard({
     [, savedMovies]
   );
 
-  function updateFavourite(event) {
-    const likeButton = event.target;
-    if (likeButton.classList.contains("card__btn-save-like_active")) {
-      likeButton.classList.remove("card__btn-save-like_active");
-      deleteCard(inSavedList);
-    } else {
-      handleSaveCard(movie);
-      likeButton.classList.add("card__btn-save-like_active");
-    }
-  }
-
   function handleDeleteButton() {
     deleteCard(movie);
   }
@@ -77,7 +66,7 @@ export default function MoviesCard({
         <p className="card__name">{movie.nameRU}</p>
         {pathname === "/movies" ? (
           <button
-            onClick={updateFavourite}
+          onClick={handleSaveCard}
             className={`card__btn-save-like ${
               saved ? "card__btn-save-like_active" : ""
             }`}

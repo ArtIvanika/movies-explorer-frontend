@@ -2,6 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import {
+  INTERNAL_SERVER_ERROR_500,
+  BAD_REQUEST_400,
+  CONFLICT_409,
+  emailRegex,
+} from "../../utils/constants";
 
 function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTextErrorUser}) {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
@@ -31,13 +37,13 @@ function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTe
 
   useEffect(() => {
     if (error === 400) {
-      setTextErrorUser("При обновлении профиля произошла ошибка");
+      setTextErrorUser(BAD_REQUEST_400);
     }
     if (error === 409) {
-      setTextErrorUser("Пользователь с таким email уже существует.");
+      setTextErrorUser(CONFLICT_409);
     }
     if (error === 500) {
-      setTextErrorUser("На сервере произошла ошибка.");
+      setTextErrorUser(INTERNAL_SERVER_ERROR_500);
     }
   }, [error]);
 
@@ -75,6 +81,7 @@ function Profile({ signOut, isWaiting, onUpdateUser, error, textErrorUser, setTe
             minLength={2}
             maxLength={40}
             required
+            pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,}"
             disabled={!isEditing || isWaiting}
           />
         </label>
