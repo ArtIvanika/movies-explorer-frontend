@@ -60,7 +60,7 @@ export default function MoviesCardList({
     return () => {
       window.removeEventListener("resize", resizeListener);
     };
-  }, [width, searchMovies]);
+  }, [width, renderAllMovies]);
 
   function addMovies() {
     const width = window.innerWidth;
