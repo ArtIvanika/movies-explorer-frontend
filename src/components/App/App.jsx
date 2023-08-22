@@ -343,20 +343,15 @@ function App() {
     mainApi
       .deleteMovie(card._id)
       .then(() => {
-        if (pathname === "/saved-movies") {
           const newShownCards = savedMovies.filter(
             (c) => c.movieId !== card.movieId
           );
+          console.log(newShownCards)
           const filteredMovies = handleSearch(newShownCards, searchText);
-          setSavedCardsList(filteredMovies);
-        }
-        // const newCards = savedMovies?.filter((c) => c.movieId !== card.movieId);
-        // setSavedMovies(newCards);
-        // console.log("Карточка удалена");
+          setSavedMovies(filteredMovies)
       })
       .catch((err) => {
         console.log(err);
-        // console.log("Ошибка сохранения карточки ");
       })
       .finally(() => {
         setIsWaiting(false);
